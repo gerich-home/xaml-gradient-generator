@@ -1,0 +1,112 @@
+﻿<Window x:Class="GradientGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gradient generator" Height="350" Width="800" WindowState="Maximized">
+    <Window.Resources>
+        <SolidColorBrush x:Key="DarkSquareColor" Color="LightGray" />
+        <SolidColorBrush x:Key="LightSquareColor" Color="White" />
+        
+        <DrawingBrush x:Key="CheckeredBrush" Viewport="0,0,20,20" ViewportUnits="Absolute" Stretch="None" TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="{DynamicResource DarkSquareColor}">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="0,0,10,10"/>
+                                <RectangleGeometry Rect="10,10,10,10"/>
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{DynamicResource LightSquareColor}">
+                        <GeometryDrawing.Geometry>
+                            <GeometryGroup>
+                                <RectangleGeometry Rect="10,0,10,10"/>
+                                <RectangleGeometry Rect="0,10,10,10"/>
+                            </GeometryGroup>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Border Margin="2" BorderThickness="1" BorderBrush="Black" Background="{StaticResource CheckeredBrush}" >
+                <Viewbox>
+                    <Image x:Name="Image" Stretch="None" />
+                </Viewbox>
+            </Border>
+            <Slider x:Name="Column" Margin="12" Grid.Row="1" Orientation="Horizontal" Minimum="0" Maximum="0" SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True" TickPlacement="TopLeft" ValueChanged="Column_ValueChanged" />
+
+            <StackPanel Grid.Row="2" >
+                <Button Margin="2" Content="Load" Click="Load_Click" />
+            </StackPanel>
+            <TextBox Margin="2" x:Name="Output" Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextChanged="Output_TextChanged" />
+            <Grid Grid.Row="3" Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" MinWidth="40"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Precision: "/>
+                <xctk:IntegerUpDown x:Name="Precision" Minimum="0" Grid.Column="1" ValueChanged="Precision_ValueChanged" Value="1" />
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Column="1">
+            <Border Margin="2" BorderThickness="1" BorderBrush="Black" Background="{StaticResource CheckeredBrush}" >
+                <Grid x:Name="GradientView" Margin="10" MouseLeftButtonUp="GradientView_MouseLeftButtonUp" />
+            </Border>
+        </Grid>
+
+        <Slider x:Name="Start" Margin="12" Grid.Column="2" Orientation="Vertical" Minimum="0" Maximum="1" SmallChange="0.001" LargeChange="0.01"           ValueChanged="Slider_ValueChanged" IsDirectionReversed="True" IsSnapToTickEnabled="True" TickPlacement="TopLeft" />
+        <Slider x:Name="End"   Margin="12" Grid.Column="3" Orientation="Vertical" Minimum="0" Maximum="1" SmallChange="0.001" LargeChange="0.01" Value="1" ValueChanged="Slider_ValueChanged" IsDirectionReversed="True" IsSnapToTickEnabled="True" TickPlacement="TopLeft" />
+
+        <Grid Grid.Column="4" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBox Margin="2" x:Name="OutputTopEdge"    Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+            <TextBox Margin="2" x:Name="OutputCenter"     Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+            <TextBox Margin="2" x:Name="OutputBottomEdge" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+        </Grid>
+
+        <Grid Grid.Column="5" >
+            <Border Margin="2" BorderThickness="1" BorderBrush="Black" Background="{StaticResource CheckeredBrush}" >
+                <Grid x:Name="GradientViewCenter" Margin="10" MouseLeftButtonUp="GradientViewCenter_MouseLeftButtonUp" />
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="6" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Margin="2" BorderThickness="1" BorderBrush="Black" Grid.Row="0" Background="{StaticResource CheckeredBrush}" >
+                <Grid x:Name="GradientViewTopEdge" Margin="10" MouseLeftButtonUp="GradientViewTopEdge_MouseLeftButtonUp" />
+            </Border>
+            <Border Margin="2" BorderThickness="1" BorderBrush="Black" Grid.Row="1" Background="{StaticResource CheckeredBrush}" >
+                <Grid x:Name="GradientViewBottomEdge" Margin="10" MouseLeftButtonUp="GradientViewBottomEdge_MouseLeftButtonUp" />
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
